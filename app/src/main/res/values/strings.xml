@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">sensei</string>
+    <string name="app_name">Trainer</string>
+    <string name="edit_message">my message</string>
+    <string name="button_send">my button</string>
+    <string name="title_activity_display_message">My Message</string>
+    <string name="questionProgress">Question progress</string>
+    <string name="totalQuestionQnt">no data</string>
+    <string name="percentageScore">0%</string>
+    <string name="you_finished_test_your_score">You finished test, your score:</string>
+    <string name="select_training">Select Training</string>
+    <string name="predicting">Predicting</string>
+    <string name="guessing">Guessing</string>
+    <string name="pick_answer">Pick answer:</string>
+    <string name="back_to_main_menu">Back to Main Menu</string>
 </resources>
