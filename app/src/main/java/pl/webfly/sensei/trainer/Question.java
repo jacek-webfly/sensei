@@ -9,18 +9,18 @@ import java.util.Random;
  * Project: Tutorial
  *
  */
-public class Question implements QuestionInterface {
+public class Question {
 
     private int correctAnswer;
-    private int givenAnswer = -1;
-    private boolean[] replies;
+    protected int givenAnswer = -1;
+    protected boolean[] replies;
 
     public Question(int numberOfReplies) {
         generateReplies(numberOfReplies);
-        generateCorrectAnswer(numberOfReplies);
+
     }
 
-    private void generateCorrectAnswer(int numberOfReplies) {
+    protected void generateCorrectAnswer(int numberOfReplies) {
         Random rn = new Random();
         correctAnswer = rn.nextInt(numberOfReplies);
     }
@@ -32,7 +32,6 @@ public class Question implements QuestionInterface {
         }
     }
 
-    @Override
     public boolean isCorrect() throws Exception {
         if (givenAnswer == -1) {
             throw new Exception("No answer was given");
@@ -40,12 +39,10 @@ public class Question implements QuestionInterface {
         return givenAnswer == correctAnswer;
     }
 
-    @Override
     public boolean isAnswered() {
         return givenAnswer != -1;
     }
 
-    @Override
     public void setAnswer(int answer) throws Exception {
         if (answer > (replies.length - 1)) {
             throw new Exception("Wrong answer was given");

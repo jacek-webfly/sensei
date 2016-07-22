@@ -38,6 +38,8 @@ public class TrainerParams implements Parcelable {
         return numberOfReplies;
     }
 
+
+
     public TrainingTypes getTrainingType() {
         return trainingType;
     }

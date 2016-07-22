@@ -12,18 +12,32 @@ import android.widget.Button;
 import android.widget.TextView;
 import pl.webfly.sensei.trainer.Trainer;
 import pl.webfly.sensei.trainer.TrainerParams;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class Question extends AppCompatActivity implements View.OnClickListener {
 
-    private final int[] buttons = {
-            R.id.answer_0, R.id.answer_1, R.id.answer_2,
-            R.id.answer_3, R.id.answer_4, R.id.answer_5,
-            R.id.answer_6, R.id.answer_7, R.id.answer_8};
+    private static final Map<Integer, Integer> buttonsLayoutMap;
+    static {
+        buttonsLayoutMap = new HashMap<>();
+        buttonsLayoutMap.put(2, R.layout.buttons_2);
+        buttonsLayoutMap.put(4, R.layout.buttons_4);
+        buttonsLayoutMap.put(9, R.layout.buttons_9);
+    };
 
-    private Map<Integer, Integer> repliesMap = new HashMap<>();
+    private static final Map<Integer, Integer> answersMap;
+    static {
+        answersMap = new HashMap<>();
+        answersMap.put(R.id.answer_0, 0);
+        answersMap.put(R.id.answer_1, 1);
+        answersMap.put(R.id.answer_2, 2);
+        answersMap.put(R.id.answer_3, 3);
+        answersMap.put(R.id.answer_4, 4);
+        answersMap.put(R.id.answer_5, 5);
+        answersMap.put(R.id.answer_6, 6);
+        answersMap.put(R.id.answer_7, 7);
+        answersMap.put(R.id.answer_8, 8);
+    };
 
 
     private Trainer trainer;
@@ -32,9 +46,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            repliesMap.put(2, 0);
-            repliesMap.put(4, 1);
-            repliesMap.put(9, 2);
+
             setContentView(R.layout.question);
 
             Intent intent = getIntent();
@@ -43,45 +55,9 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
 
             ViewGroup inclusionViewGroup = (ViewGroup) findViewById(R.id.inclusionlayout);
 
-            if (params.getNumberOfReplies() == 2) {
-                View child1 = LayoutInflater.from(this).inflate(R.layout.buttons_2, null);
-                inclusionViewGroup.addView(child1);
-            }
-            if (params.getNumberOfReplies() == 4) {
-                View child1 = LayoutInflater.from(this).inflate(R.layout.buttons_4, null);
-                inclusionViewGroup.addView(child1);
-            }
-            if (params.getNumberOfReplies() == 9) {
-                View child1 = LayoutInflater.from(this).inflate(R.layout.buttons_9, null);
-                inclusionViewGroup.addView(child1);
-            }
+            addButtonsLayout(params, inclusionViewGroup);
 
-
-            if (params.getNumberOfReplies() >= 2) {
-                Button b1 = (Button) findViewById(R.id.answer_0);
-                b1.setOnClickListener(this);
-                Button b2 = (Button) findViewById(R.id.answer_1);
-                b2.setOnClickListener(this);
-            }
-            if (params.getNumberOfReplies() >= 4) {
-                Button b3 = (Button) findViewById(R.id.answer_2);
-                b3.setOnClickListener(this);
-                Button b4 = (Button) findViewById(R.id.answer_3);
-                b4.setOnClickListener(this);
-            }
-            if (params.getNumberOfReplies() >= 9) {
-                Button b5 = (Button) findViewById(R.id.answer_4);
-                b5.setOnClickListener(this);
-                Button b6 = (Button) findViewById(R.id.answer_5);
-                b6.setOnClickListener(this);
-                Button b7 = (Button) findViewById(R.id.answer_6);
-                b7.setOnClickListener(this);
-                Button b8 = (Button) findViewById(R.id.answer_7);
-                b8.setOnClickListener(this);
-                Button b9 = (Button) findViewById(R.id.answer_8);
-                b9.setOnClickListener(this);
-            }
-
+            createButtonsWithListeners(params);
 
             updateQuestionCounters();
         } catch (Exception e) {
@@ -89,45 +65,42 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    private void createButtonsWithListeners(TrainerParams params) {
+
+        Button buttons[] = new Button[params.getNumberOfReplies()];
+
+        for (Object o : answersMap.entrySet()) {
+            Map.Entry thisEntry = (Map.Entry) o;
+            int numberOfReplies = params.getNumberOfReplies();
+            int answerButtonNumber = (int) thisEntry.getValue();
+            if (answerButtonNumber <  numberOfReplies) {
+                buttons[answerButtonNumber] = (Button) findViewById((Integer) thisEntry.getKey());
+                buttons[answerButtonNumber].setOnClickListener(this);
+            }
+        }
+    }
+
+    private void addButtonsLayout(TrainerParams params, ViewGroup inclusionViewGroup) throws Exception {
+
+        if (!buttonsLayoutMap.containsKey(params.getNumberOfReplies())) {
+            throw new Exception("There is no layout for given number of replies. Given: " + params.getNumberOfReplies());
+        }
+        View child1 = LayoutInflater.from(this).inflate(buttonsLayoutMap.get(params.getNumberOfReplies()), null);
+        inclusionViewGroup.addView(child1);
+    }
+
     @Override
     public void onClick(View v) {
         try {
             updateQuestionCounters();
-            switch (v.getId()) {
-                case (R.id.answer_0):
-                    trainer.getCurrentQuestion().setAnswer(0);
-                    break;
-                case (R.id.answer_1):
-                    trainer.getCurrentQuestion().setAnswer(1);
-                    break;
-                case (R.id.answer_2):
-                    trainer.getCurrentQuestion().setAnswer(2);
-                    break;
-                case (R.id.answer_3):
-                    trainer.getCurrentQuestion().setAnswer(3);
-                    break;
-                case (R.id.answer_4):
-                    trainer.getCurrentQuestion().setAnswer(4);
-                    break;
-                case (R.id.answer_5):
-                    trainer.getCurrentQuestion().setAnswer(5);
-                    break;
-                case (R.id.answer_6):
-                    trainer.getCurrentQuestion().setAnswer(6);
-                    break;
-                case (R.id.answer_7):
-                    trainer.getCurrentQuestion().setAnswer(7);
-                    break;
-                case (R.id.answer_8):
-                    trainer.getCurrentQuestion().setAnswer(8);
-                    break;
-                default:
-                    throw new Exception("There is no answer given");
 
+            if (!answersMap.containsKey(v.getId())) {
+                throw new Exception("There is defined answer for given button id. Given: " + v.getId());
             }
+            trainer.getCurrentQuestion().setAnswer(answersMap.get(v.getId()));
 
-            int i = trainer.getCurrentQuestion().getCorrectAnswer();
-            Button correct = (Button) findViewById(buttons[i]);
+            Integer answerButtonIdForGivenAnswerValue = getAnswerButtonIdForGivenAnswerValue(trainer.getCurrentQuestion().getCorrectAnswer());
+            Button correct = (Button) findViewById(answerButtonIdForGivenAnswerValue);
             Animation fadeout = AnimationUtils.loadAnimation(this, R.anim.fadeout);
             correct.startAnimation(fadeout);
 
@@ -162,5 +135,15 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
         String textQuestionProgress = Integer.toString(trainer.getCurrentQuestionNr()) + "/" + Integer.toString(trainer.getTotalQuestionQnt());
         TextView questionProgress = (TextView) findViewById(R.id.questionProgress);
         questionProgress.setText(textQuestionProgress);
+    }
+
+    private static Integer getAnswerButtonIdForGivenAnswerValue(int answerValue) {
+        for (Object o : answersMap.entrySet()) {
+            Map.Entry thisEntry = (Map.Entry) o;
+            if (thisEntry.getValue() == answerValue) {
+                return (Integer) thisEntry.getKey();
+            }
+        }
+        return null;
     }
 }

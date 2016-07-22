@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Trainer implements TrainerInterface {
 
+    private final TrainerParams.TrainingTypes trainingType;
     private int questionLimit;
     private int numberOfReplies;
     private int currentQuestionId = 0;
@@ -12,14 +13,22 @@ public class Trainer implements TrainerInterface {
 
     public Trainer(TrainerParams Params) {
 
-        this.questionLimit = Params.getQuestionLimit();
-        this.numberOfReplies = Params.getNumberOfReplies();
+        questionLimit = Params.getQuestionLimit();
+        numberOfReplies = Params.getNumberOfReplies();
+        trainingType = Params.getTrainingType();
         generate();
     }
 
     private void generate() {
         for (int i = 1; i <= questionLimit; i++) {
-            Question question = new Question(numberOfReplies);
+            Question question = null;
+            if (trainingType == TrainerParams.TrainingTypes.PREDICT) {
+                question = new QuestionPredict(numberOfReplies);
+            }
+            if(trainingType == TrainerParams.TrainingTypes.GUESS) {
+                question = new QuestionGuess(numberOfReplies);
+            }
+
             questions.add(question);
         }
     }
