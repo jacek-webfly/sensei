@@ -15,6 +15,8 @@ import pl.webfly.sensei.trainer.TrainerParams;
  */
 public class Start extends AppCompatActivity implements View.OnClickListener {
 
+private final String APP_VERSION = "1.0.1";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
