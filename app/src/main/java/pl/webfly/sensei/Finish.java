@@ -24,13 +24,11 @@ public class Finish extends AppCompatActivity implements View.OnClickListener {
         backButton.setOnClickListener(this);
 
         Intent intent = getIntent();
-        Score score = (Score) intent.getParcelableExtra("scores");
+        Score score = intent.getParcelableExtra("scores");
 
 
         TextView scoreText = (TextView) findViewById(R.id.percentageScore);
         scoreText.setText(Float.toString(score.getPercentageScore()) + "% (" + score.getCorrectAnswersQnt() + "/" + score.getAnsweredQuestionQnt() + ")");
-
-
     }
 
     @Override

@@ -16,7 +16,7 @@ public class testTrainer extends testAbstract {
     @Test
     public void createTrainer() throws Exception {
         //given
-        Trainer test = new Trainer(new TrainerParams(20, 5));
+        Trainer test = new Trainer(new TrainerParams(20, 5, TrainerParams.TrainingTypes.GUESS));
 
         //when
         List<Question> questions = test.getQuestions();
@@ -28,7 +28,7 @@ public class testTrainer extends testAbstract {
     @Test
     public void testGeneratedScore() throws Exception {
         //given
-        Trainer test =  new Trainer(new TrainerParams(2, 2));
+        Trainer test =  new Trainer(new TrainerParams(2, 2, TrainerParams.TrainingTypes.GUESS));
 
         //when
         Score scores = test.getScores();
@@ -38,10 +38,9 @@ public class testTrainer extends testAbstract {
     }
 
     @Test
-    public void testTrainerCase() throws Exception {
+    public void testTrainerCasePredict() throws Exception {
         //given
-        Trainer test = new Trainer(new TrainerParams(2, 2));
-
+        Trainer test = new Trainer(new TrainerParams(2, 2, TrainerParams.TrainingTypes.GUESS));
 
         //when
         Question currentQuestion = test.getCurrentQuestion();
@@ -68,11 +67,34 @@ public class testTrainer extends testAbstract {
         scores = test.getScores();
         assertEquals(50, scores.getPercentageScore(), 0);
     }
+    @Test
+    public void testTrainerCaseGuess() throws Exception {
+        //given
+        Trainer test = new Trainer(new TrainerParams(2, 2, TrainerParams.TrainingTypes.PREDICT));
+
+        //when
+        Question currentQuestion = test.getCurrentQuestion();
+        currentQuestion.setAnswer(1);
+
+        //then
+        assertEquals(2, test.getTotalQuestionQnt());
+        assertFalse(test.isFinished());
+        assertEquals(1, test.getCurrentQuestionNr());
+
+        //when
+        test.moveToNextQuestion();
+        currentQuestion = test.getCurrentQuestion();
+        currentQuestion.setAnswer(0);
+
+        //then
+        assertTrue(test.isFinished());
+        assertEquals(2, test.getCurrentQuestionNr());
+    }
 
     @Test(expected = Exception.class)
     public void testTrainerCaseQuestionOverBound() throws Exception {
         //given
-        Trainer test = new Trainer(new TrainerParams(1, 2));
+        Trainer test = new Trainer(new TrainerParams(1, 2, TrainerParams.TrainingTypes.GUESS));
 
         //when
         Question currentQuestion = test.getCurrentQuestion();

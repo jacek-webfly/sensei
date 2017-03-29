@@ -11,9 +11,17 @@ import java.lang.reflect.Field;
 public class testAbstract {
     protected void setCorrectAnswer (Question question, int correctAnswer) throws NoSuchFieldException, IllegalAccessException {
         Class questionClass = question.getClass();
-        Field f = questionClass.getDeclaredField("correctAnswer");
-        f.setAccessible(true);
-        f.set(question, correctAnswer);
+        try {
+            Field f = questionClass.getDeclaredField("correctAnswer");
+            f.setAccessible(true);
+            f.set(question, correctAnswer);
+        }
+        catch (Exception e) {
+            Field f = questionClass.getSuperclass().getDeclaredField("correctAnswer");
+            f.setAccessible(true);
+            f.set(question, correctAnswer);
+        }
+
     }
 
 }

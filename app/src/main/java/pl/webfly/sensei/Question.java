@@ -142,7 +142,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
     private static Integer getAnswerButtonIdForGivenAnswerValue(int answerValue) {
         for (Object o : answersMap.entrySet()) {
             Map.Entry thisEntry = (Map.Entry) o;
-            if (thisEntry.getValue() == answerValue) {
+            if ((Integer) thisEntry.getValue() == answerValue) {
                 return (Integer) thisEntry.getKey();
             }
         }

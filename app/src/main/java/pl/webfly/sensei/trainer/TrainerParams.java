@@ -19,10 +19,10 @@ public class TrainerParams implements Parcelable {
     public TrainerParams() {
     }
 
-    public TrainerParams(int questionLimit, int numberOfReplies) {
-        this.questionLimit = questionLimit;
-        this.numberOfReplies = numberOfReplies;
-    }
+//    public TrainerParams(int questionLimit, int numberOfReplies) {
+//        this.questionLimit = questionLimit;
+//        this.numberOfReplies = numberOfReplies;
+//    }
 
     public TrainerParams(int questionLimit, int numberOfReplies, TrainingTypes trainingType) {
         this.questionLimit = questionLimit;

@@ -15,7 +15,8 @@ import pl.webfly.sensei.trainer.TrainerParams;
  */
 public class Start extends AppCompatActivity implements View.OnClickListener {
 
-private final String APP_VERSION = "1.0.1";
+    public static final int QUESTION_LIMIT = 10;
+    private final String APP_VERSION = "1.0.1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +43,22 @@ private final String APP_VERSION = "1.0.1";
         TrainerParams params = new TrainerParams();
         switch (v.getId()) {
             case (R.id.predict_easy):
-                params = new TrainerParams(5, 2, TrainerParams.TrainingTypes.PREDICT);
+                params = new TrainerParams(QUESTION_LIMIT, 2, TrainerParams.TrainingTypes.PREDICT);
                 break;
             case (R.id.predict_medium):
-                params = new TrainerParams(5, 4, TrainerParams.TrainingTypes.PREDICT);
+                params = new TrainerParams(QUESTION_LIMIT, 4, TrainerParams.TrainingTypes.PREDICT);
                 break;
             case (R.id.predict_hard):
-                params = new TrainerParams(5, 9, TrainerParams.TrainingTypes.PREDICT);
+                params = new TrainerParams(QUESTION_LIMIT, 9, TrainerParams.TrainingTypes.PREDICT);
                 break;
             case (R.id.guess_easy):
-                params = new TrainerParams(5, 2, TrainerParams.TrainingTypes.GUESS);
+                params = new TrainerParams(QUESTION_LIMIT, 2, TrainerParams.TrainingTypes.GUESS);
                 break;
             case (R.id.guess_medium):
-                params = new TrainerParams(5, 4, TrainerParams.TrainingTypes.GUESS);
+                params = new TrainerParams(QUESTION_LIMIT, 4, TrainerParams.TrainingTypes.GUESS);
                 break;
             case (R.id.guess_hard):
-                params = new TrainerParams(5, 9, TrainerParams.TrainingTypes.GUESS);
+                params = new TrainerParams(QUESTION_LIMIT, 9, TrainerParams.TrainingTypes.GUESS);
                 break;
 
         }
