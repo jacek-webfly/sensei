@@ -6,27 +6,32 @@ import java.util.List;
 public class Trainer implements TrainerInterface {
 
     private final TrainerParams.TrainingTypes trainingType;
+    private final Randomizer randomizer;
     private int questionLimit;
     private int numberOfReplies;
     private int currentQuestionId = 0;
     private List<Question> questions = new LinkedList<>();
 
-    public Trainer(TrainerParams Params) {
-
+    public Trainer(TrainerParams Params, Randomizer randomizer) {
+        this.randomizer = randomizer;
         questionLimit = Params.getQuestionLimit();
         numberOfReplies = Params.getNumberOfReplies();
         trainingType = Params.getTrainingType();
         generate();
     }
 
+    public Trainer(TrainerParams Params) {
+        this(Params, new Randomizer());
+    }
+
     private void generate() {
         for (int i = 1; i <= questionLimit; i++) {
             Question question = null;
             if (trainingType == TrainerParams.TrainingTypes.PREDICT) {
-                question = new QuestionPredict(numberOfReplies);
+                question = new QuestionPredict(numberOfReplies, randomizer);
             }
             if(trainingType == TrainerParams.TrainingTypes.GUESS) {
-                question = new QuestionGuess(numberOfReplies);
+                question = new QuestionGuess(numberOfReplies, randomizer);
             }
 
             questions.add(question);

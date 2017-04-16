@@ -1,82 +1,101 @@
 package pl.webfly.sensei.trainer;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+import pl.webfly.sensei.trainer.Exceptions.QuestionIsNotAnsweredException;
+import pl.webfly.sensei.trainer.Exceptions.AnswerOutOfBoundsException;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.when;
 
-public class testQuestion extends testAbstract {
+@RunWith(MockitoJUnitRunner.class)
+public class testQuestion {
+
+    public static final int CORRECT_ANSWER = 1;
+    public static final int INCORRECT_ANSWER = 0;
+    @Mock
+    private Randomizer randomizer;
+
+    @Before
+    public void setUp() throws Exception {
+        when(randomizer.getRandomInt(anyInt())).thenReturn(CORRECT_ANSWER);
+    }
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    @Test(expected = Exception.class)
-    public void answerOutOfAllowedRange() throws Exception {
+    @Test
+    public void shouldThrowExceptionWhenGivenAnswerIsOutOfAllowedRange() throws Exception {
         //given
-        Question question = new Question(5);
+        Question question = new QuestionPredict(2, randomizer);
 
-        //when
-        question.setAnswer(5);
+        //expected
+        thrown.expect(AnswerOutOfBoundsException.class);
 
         //then
-        thrown.expect(Exception.class);
+        question.setAnswer(5);
     }
 
     @Test
-    public void answerIsCorrect() throws Exception {
+    public void shouldReturnTrueWhenGivenAnswerIsCorrect() throws Exception {
         //given
-        Question question = new Question(5);
-        setCorrectAnswer(question, 1);
+        Question question = new QuestionPredict(5, randomizer);
 
         //when
-        question.setAnswer(1);
+        question.setAnswer(CORRECT_ANSWER);
 
         //then
         assertTrue(question.isCorrect());
+        assertEquals(CORRECT_ANSWER, question.getCorrectAnswer());
     }
 
     @Test
-    public void answerIsWrong() throws Exception {
+    public void shouldReturnFalseWhenGivenAnswerIsIncorrect() throws Exception {
         //given
-        Question question = new Question(5);
-        setCorrectAnswer(question, 1);
+        Question question = new QuestionPredict(5, randomizer);
 
         //when
-        question.setAnswer(2);
+        question.setAnswer(INCORRECT_ANSWER);
 
         //then
         assertFalse(question.isCorrect());
     }
 
-    @Test(expected = Exception.class)
-    public void isCorrectFailOnNotAnsweredQuestion() throws Exception {
+    @Test
+    public void shouldThrowExceptionWhenCallIsCorrectMethodOnNotAnsweredQuestion() throws Exception {
         //given
-        Question question = new Question(5);
+        Question question = new QuestionPredict(5, randomizer);
+
+        //expected
+        thrown.expect(QuestionIsNotAnsweredException.class);
 
         //when
         question.isCorrect();
-
-        //then
-        thrown.expect(Exception.class);
     }
 
 
     @Test
-    public void isNotAnswered() throws Exception {
+    public void shouldReturnFalseWhenCallIsAnsweredMethodOnNotAnsweredQuestion() throws Exception {
         //given
-        Question question = new Question(5);
+        Question question = new QuestionPredict(5, randomizer);
 
-        //when
         //then
         assertFalse(question.isAnswered());
     }
 
     @Test
-    public void isAnswered() throws Exception {
+    public void shouldReturnTrueWhenCallIsAnsweredMethodOnAnsweredQuestion() throws Exception {
         //given
-        Question question = new Question(5);
+        Question question = new QuestionPredict(5, randomizer);
 
         //when
         question.setAnswer(2);
@@ -84,6 +103,4 @@ public class testQuestion extends testAbstract {
         //then
         assertTrue(question.isAnswered());
     }
-
-
 }

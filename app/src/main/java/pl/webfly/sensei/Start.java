@@ -7,12 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import pl.webfly.sensei.trainer.TrainerParams;
 
-/**
- * Created by jbukowski on 2016-06-27
- * <p/>
- * Package: pl.webfly.sensei
- * Project: Tutorial
- */
 public class Start extends AppCompatActivity implements View.OnClickListener {
 
     public static final int QUESTION_LIMIT = 10;

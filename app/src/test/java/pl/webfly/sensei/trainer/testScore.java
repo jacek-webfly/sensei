@@ -9,23 +9,16 @@ import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by jbukowski on 2016-06-14
- * <p/>
- * Package: com.example.jbukowski.tutorial.trainer
- * Project: Tutorial
- */
-
 @RunWith(Parameterized.class)
 public class testScore {
 
     private final int totalQuestion;
-    private final int answeredQuestion;
+    private final int numberOfCorrectAnswers;
     private final float expectedResult;
 
-    public testScore(int totalQuestion, int answeredQuestion, float expectedResult) {
-        this.totalQuestion = totalQuestion;
-        this.answeredQuestion = answeredQuestion;
+    public testScore(int numberOfAnsweredQuestions, int numberOfCorrectAnswers, float expectedResult) {
+        this.totalQuestion = numberOfAnsweredQuestions;
+        this.numberOfCorrectAnswers = numberOfCorrectAnswers;
         this.expectedResult = expectedResult;
     }
 
@@ -33,7 +26,9 @@ public class testScore {
     public static Collection scores() {
         return Arrays.asList(new Object[][]{
                 {10, 5, 50},
-                {9, 3, (float) 33.33},
+                {9, 3, (float) 33.3},
+                {9, 6, (float) 66.7},
+                {4, 3, 75},
                 {10, 0, 0},
                 {0, 0, 0},
                 {1, 1, 100},
@@ -43,12 +38,12 @@ public class testScore {
     @Test
     public void percentageScoreIsAboveZero() {
         //given
-        Score score = new Score(totalQuestion, answeredQuestion);
+        Score score = new Score(totalQuestion, numberOfCorrectAnswers);
 
         //when
         float percentageScore = score.getPercentageScore();
 
         //then
-        assertEquals(expectedResult, percentageScore, 0.01);
+        assertEquals(expectedResult, percentageScore, 0);
     }
 }

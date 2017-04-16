@@ -3,13 +3,10 @@ package pl.webfly.sensei.trainer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by jbukowski on 2016-06-14
- * <p/>
- * Package: ${PACKAGE_NAME}
- * Project: Tutorial
- */
+import java.text.DecimalFormat;
+
 public class Score implements Parcelable {
+    public static final int SCORE_DECIMAL_PRECISION = 1;
     private int answeredQuestionQnt;
     private int correctAnswersQnt;
 
@@ -39,10 +36,12 @@ public class Score implements Parcelable {
         if (correctAnswersQnt == 0) {
             return 0;
         } else {
-            return (float) correctAnswersQnt / answeredQuestionQnt * 100;
+            float result = (float) correctAnswersQnt / answeredQuestionQnt * 100;
+            DecimalFormat twoDForm = new DecimalFormat(
+                    "#." + new String(new char[SCORE_DECIMAL_PRECISION]).replace("\0", "#"));
+            return Float.valueOf(twoDForm.format(result));
         }
     }
-
 
     @Override
     public int describeContents() {
