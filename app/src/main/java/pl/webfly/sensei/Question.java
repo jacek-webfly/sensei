@@ -24,7 +24,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
         buttonsLayoutMap.put(2, R.layout.buttons_2);
         buttonsLayoutMap.put(4, R.layout.buttons_4);
         buttonsLayoutMap.put(9, R.layout.buttons_9);
-    };
+    }
 
     private static final Map<Integer, Integer> answersMap;
     static {
@@ -38,8 +38,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
         answersMap.put(R.id.answer_6, 6);
         answersMap.put(R.id.answer_7, 7);
         answersMap.put(R.id.answer_8, 8);
-    };
-
+    }
 
     private Trainer trainer;
 
@@ -47,7 +46,6 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-
             setContentView(R.layout.question);
 
             Intent intent = getIntent();
@@ -63,12 +61,12 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
             updateQuestionCounters();
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } catch (Exception e) {
+            //todo: remove before release application and add error logger
             e.printStackTrace();
         }
     }
 
     private void createButtonsWithListeners(TrainerParams params) {
-
         Button buttons[] = new Button[params.getNumberOfReplies()];
 
         for (Object o : answersMap.entrySet()) {
@@ -83,7 +81,6 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void addButtonsLayout(TrainerParams params, ViewGroup inclusionViewGroup) throws Exception {
-
         if (!buttonsLayoutMap.containsKey(params.getNumberOfReplies())) {
             throw new Exception("There is no layout for given number of replies. Given: " + params.getNumberOfReplies());
         }
@@ -97,7 +94,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
             updateQuestionCounters();
 
             if (!answersMap.containsKey(v.getId())) {
-                throw new Exception("There is defined answer for given button id. Given: " + v.getId());
+                throw new Exception("There isn't defined answer for given button id. Given: " + v.getId());
             }
             trainer.getCurrentQuestion().setAnswer(answersMap.get(v.getId()));
 
@@ -106,20 +103,9 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
             Animation fadeout = AnimationUtils.loadAnimation(this, R.anim.fadeout);
             correct.startAnimation(fadeout);
 
-
             if (trainer.isFinished()) {
                 Intent intent = new Intent(this, Finish.class);
                 intent.putExtra("scores", trainer.getScores());
-
-                // wgrane activity nie działa jak nalezy (breakpointy nie łapią)
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        setContentView(R.layout.finish); //where <next> is you target activity :)
-//
-//                    }
-//                }, 2000);
 
                 startActivity(intent);
                 return;
@@ -129,6 +115,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
             updateQuestionCounters();
 
         } catch (Exception e) {
+            //todo: remove before release application and add error logger
             e.printStackTrace();
         }
     }

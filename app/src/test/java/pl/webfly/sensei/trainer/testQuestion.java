@@ -22,6 +22,7 @@ public class testQuestion {
 
     public static final int CORRECT_ANSWER = 1;
     public static final int INCORRECT_ANSWER = 0;
+
     @Mock
     private Randomizer randomizer;
 
@@ -81,7 +82,6 @@ public class testQuestion {
         //when
         question.isCorrect();
     }
-
 
     @Test
     public void shouldReturnFalseWhenCallIsAnsweredMethodOnNotAnsweredQuestion() throws Exception {

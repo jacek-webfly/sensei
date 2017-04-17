@@ -5,12 +5,26 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import pl.webfly.sensei.trainer.TrainerParams;
 
 public class Start extends AppCompatActivity implements View.OnClickListener {
 
     public static final int QUESTION_LIMIT = 10;
-    private final String APP_VERSION = "1.0.1";
+
+    private static final Map<Integer, TrainerParams> trainerMode;
+    static {
+        trainerMode = new HashMap<>();
+        trainerMode.put(R.id.predict_easy,  new TrainerParams(QUESTION_LIMIT, 2, TrainerParams.TrainingTypes.PREDICT));
+        trainerMode.put(R.id.predict_medium, new TrainerParams(QUESTION_LIMIT, 4, TrainerParams.TrainingTypes.PREDICT));
+        trainerMode.put(R.id.predict_hard, new TrainerParams(QUESTION_LIMIT, 9, TrainerParams.TrainingTypes.PREDICT));
+        trainerMode.put(R.id.guess_easy, new TrainerParams(QUESTION_LIMIT, 2, TrainerParams.TrainingTypes.GUESS));
+        trainerMode.put(R.id.guess_medium, new TrainerParams(QUESTION_LIMIT, 4, TrainerParams.TrainingTypes.GUESS));
+        trainerMode.put(R.id.guess_hard, new TrainerParams(QUESTION_LIMIT, 9, TrainerParams.TrainingTypes.GUESS));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,31 +48,9 @@ public class Start extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        TrainerParams params = new TrainerParams();
-        switch (v.getId()) {
-            case (R.id.predict_easy):
-                params = new TrainerParams(QUESTION_LIMIT, 2, TrainerParams.TrainingTypes.PREDICT);
-                break;
-            case (R.id.predict_medium):
-                params = new TrainerParams(QUESTION_LIMIT, 4, TrainerParams.TrainingTypes.PREDICT);
-                break;
-            case (R.id.predict_hard):
-                params = new TrainerParams(QUESTION_LIMIT, 9, TrainerParams.TrainingTypes.PREDICT);
-                break;
-            case (R.id.guess_easy):
-                params = new TrainerParams(QUESTION_LIMIT, 2, TrainerParams.TrainingTypes.GUESS);
-                break;
-            case (R.id.guess_medium):
-                params = new TrainerParams(QUESTION_LIMIT, 4, TrainerParams.TrainingTypes.GUESS);
-                break;
-            case (R.id.guess_hard):
-                params = new TrainerParams(QUESTION_LIMIT, 9, TrainerParams.TrainingTypes.GUESS);
-                break;
-
-        }
-
+        TrainerParams trainerParams = trainerMode.get(v.getId());
         Intent intent = new Intent(this, Question.class);
-        intent.putExtra("trainerParams", params);
+        intent.putExtra("trainerParams", trainerParams);
         startActivity(intent);
     }
 }

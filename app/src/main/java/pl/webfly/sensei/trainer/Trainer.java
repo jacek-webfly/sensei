@@ -3,6 +3,8 @@ package pl.webfly.sensei.trainer;
 import java.util.LinkedList;
 import java.util.List;
 
+import pl.webfly.sensei.trainer.Exceptions.QuestionOutOfBoundsException;
+
 public class Trainer implements TrainerInterface {
 
     private final TrainerParams.TrainingTypes trainingType;
@@ -71,7 +73,7 @@ public class Trainer implements TrainerInterface {
     @Override
     public void moveToNextQuestion() throws Exception {
         if (currentQuestionId == (questions.size() - 1)) {
-            throw new Exception("Test is finished, there is no next question");
+            throw new QuestionOutOfBoundsException("Test is finished, there is no next question");
         }
         currentQuestionId++;
     }

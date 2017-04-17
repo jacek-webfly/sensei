@@ -10,6 +10,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 
+import pl.webfly.sensei.trainer.Exceptions.QuestionOutOfBoundsException;
+
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
@@ -67,9 +69,7 @@ public class testTrainer {
         assertEquals(2, test.getTotalQuestionQnt());
         assertFalse(test.isFinished());
         assertEquals(1, test.getCurrentQuestionNr());
-        Score scores = test.getScores();
-        assertEquals(100, scores.getPercentageScore(), 0);
-
+        assertEquals(100, test.getScores().getPercentageScore(), 0);
 
         //when
         test.moveToNextQuestion();
@@ -79,8 +79,7 @@ public class testTrainer {
         //then
         assertTrue(test.isFinished());
         assertEquals(2, test.getCurrentQuestionNr());
-        scores = test.getScores();
-        assertEquals(50, scores.getPercentageScore(), 0);
+        assertEquals(50, test.getScores().getPercentageScore(), 0);
     }
 
     @Test
@@ -96,8 +95,7 @@ public class testTrainer {
         assertEquals(3, test.getTotalQuestionQnt());
         assertFalse(test.isFinished());
         assertEquals(1, test.getCurrentQuestionNr());
-        Score scores = test.getScores();
-        assertEquals(100, scores.getPercentageScore(), 0);
+        assertEquals(100, test.getScores().getPercentageScore(), 0);
 
         //when
         test.moveToNextQuestion();
@@ -107,8 +105,7 @@ public class testTrainer {
         //then
         assertFalse(test.isFinished());
         assertEquals(2, test.getCurrentQuestionNr());
-        scores = test.getScores();
-        assertEquals(50, scores.getPercentageScore(), 0);
+        assertEquals(50, test.getScores().getPercentageScore(), 0);
 
         //when
         test.moveToNextQuestion();
@@ -118,8 +115,7 @@ public class testTrainer {
         //then
         assertTrue(test.isFinished());
         assertEquals(3, test.getCurrentQuestionNr());
-        scores = test.getScores();
-        assertEquals((float)66.7, scores.getPercentageScore(), 0);
+        assertEquals((float)66.7, test.getScores().getPercentageScore(), 0);
     }
 
     @Test
@@ -135,11 +131,10 @@ public class testTrainer {
         assertEquals(1, test.getTotalQuestionQnt());
         assertTrue(test.isFinished());
         assertEquals(1, test.getCurrentQuestionNr());
-        Score scores = test.getScores();
-        assertEquals(100, scores.getPercentageScore(), 0);
+        assertEquals(100, test.getScores().getPercentageScore(), 0);
 
         //expected
-        thrown.expect(Exception.class);
+        thrown.expect(QuestionOutOfBoundsException.class);
 
         //when
         test.moveToNextQuestion();
