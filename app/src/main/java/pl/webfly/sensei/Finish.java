@@ -18,7 +18,7 @@ public class Finish extends AppCompatActivity implements View.OnClickListener {
         backButton.setOnClickListener(this);
 
         Intent intent = getIntent();
-        Score score = intent.getParcelableExtra("scores");
+        Score score = intent.getParcelableExtra(Score.INTENT_NAME);
 
         TextView scoreText = (TextView) findViewById(R.id.percentageScore);
         scoreText.setText(Double.toString(score.getPercentageScore()) + "% (" + score.getCorrectAnswersQnt() + "/" + score.getAnsweredQuestionQnt() + ")");

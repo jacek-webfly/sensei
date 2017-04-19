@@ -3,26 +3,13 @@ package pl.webfly.sensei.trainer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by jbukowski on 2016-07-04
- * <p/>
- * Package: pl.webfly.sensei.trainer
- * Project: Tutorial
- */
 public class TrainerParams implements Parcelable {
+    public static final String INTENT_NAME = "params";
     private int questionLimit;
     private int numberOfReplies;
     private TrainingTypes trainingType;
 
     public enum TrainingTypes {PREDICT, GUESS}
-
-    public TrainerParams() {
-    }
-
-//    public TrainerParams(int questionLimit, int numberOfReplies) {
-//        this.questionLimit = questionLimit;
-//        this.numberOfReplies = numberOfReplies;
-//    }
 
     public TrainerParams(int questionLimit, int numberOfReplies, TrainingTypes trainingType) {
         this.questionLimit = questionLimit;
@@ -37,8 +24,6 @@ public class TrainerParams implements Parcelable {
     public int getNumberOfReplies() {
         return numberOfReplies;
     }
-
-
 
     public TrainingTypes getTrainingType() {
         return trainingType;

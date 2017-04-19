@@ -11,7 +11,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
+
+import pl.webfly.sensei.trainer.Score;
 import pl.webfly.sensei.trainer.Trainer;
+import pl.webfly.sensei.trainer.TrainerInterface;
 import pl.webfly.sensei.trainer.TrainerParams;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +43,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
         answersMap.put(R.id.answer_8, 8);
     }
 
-    private Trainer trainer;
+    private TrainerInterface trainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
             setContentView(R.layout.question);
 
             Intent intent = getIntent();
-            TrainerParams params = intent.getParcelableExtra("trainerParams");
+            TrainerParams params = intent.getParcelableExtra(TrainerParams.INTENT_NAME);
             trainer = new Trainer(params);
 
             ViewGroup inclusionViewGroup = (ViewGroup) findViewById(R.id.inclusionlayout);
@@ -105,7 +108,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener 
 
             if (trainer.isFinished()) {
                 Intent intent = new Intent(this, Finish.class);
-                intent.putExtra("scores", trainer.getScores());
+                intent.putExtra(Score.INTENT_NAME, trainer.getScores());
 
                 startActivity(intent);
                 return;

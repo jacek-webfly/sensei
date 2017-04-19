@@ -50,7 +50,7 @@ public class Start extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         TrainerParams trainerParams = trainerMode.get(v.getId());
         Intent intent = new Intent(this, Question.class);
-        intent.putExtra("trainerParams", trainerParams);
+        intent.putExtra(TrainerParams.INTENT_NAME, trainerParams);
         startActivity(intent);
     }
 }

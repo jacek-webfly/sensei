@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.text.DecimalFormat;
 
 public class Score implements Parcelable {
+    public static final String INTENT_NAME = "score";
     public static final int SCORE_DECIMAL_PRECISION = 1;
     private int answeredQuestionQnt;
     private int correctAnswersQnt;
