@@ -59,7 +59,7 @@ public class testTrainer {
     @Test
     public void behaviorTestTrainerCasePredict() throws Exception {
         //given
-        Trainer test = new Trainer(new TrainerParams(2, 2, TrainerParams.TrainingTypes.GUESS), randomizer);
+        Trainer test = new Trainer(new TrainerParams(2, 2, TrainerParams.TrainingTypes.PREDICT), randomizer);
 
         //when
         Question currentQuestion = test.getCurrentQuestion();
@@ -85,7 +85,7 @@ public class testTrainer {
     @Test
     public void behaviorTestTrainerCaseGuess() throws Exception {
         //given
-        Trainer test = new Trainer(new TrainerParams(3, 2, TrainerParams.TrainingTypes.PREDICT), randomizer);
+        Trainer test = new Trainer(new TrainerParams(3, 2, TrainerParams.TrainingTypes.GUESS), randomizer);
 
         //when
         Question currentQuestion = test.getCurrentQuestion();
@@ -119,7 +119,7 @@ public class testTrainer {
     }
 
     @Test
-    public void testTrainerCaseQuestionOverBound() throws Exception {
+    public void behaviorTestTrainerCaseQuestionOverBound() throws Exception {
         //given
         Trainer test = new Trainer(new TrainerParams(1, 2, TrainerParams.TrainingTypes.GUESS), randomizer);
 
